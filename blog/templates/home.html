@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %} Żyj świadomie - strona główna {% endblock %}
+{% load thumbnail %}
+{% block content %}
+
+                <!-- ============================================================== -->
+                <!-- Blog home 4  -->
+                <!-- ============================================================== -->
+                <div class="blog-home4 spacer bg-light">
+                    <div class="container">
+                        <!-- Row  -->
+                        <div class="row justify-content-center">
+                            <!-- Column -->
+                            <div class="col-md-8 text-center">
+                                {% if tag %}
+                                <h2 class="title">Posty oznaczone tagiem {{ tag.name }}</h2>
+                                {% else %}
+                                <h2 class="title">Najnowsze wpisy na blogu</h2>
+                                <h6 class="subtitle">Żyj świadomie każdego dnia!</h6>
+                                {% endif %}
+                            </div>
+                            <!-- Column -->
+                        </div>
+                        <div class="card-columns m-t-40">
+                            <!-- Column -->
+                            {% for post in latest_articles %}
+                            <div class="card card-shadow" data-aos="flip-left" data-aos-duration="1200">
+
+                                {% thumbnail post.image "300" as im %}
+                                <a href="{{ post.get_absolute_url }}"><img src="{{ im.url }}" class="card-img-top" alt="{{ post.title }}"></a>
+                                {% endthumbnail %}
+                                <div class="p-30">
+                                    <div class="d-flex no-block font-13">
+                                        <span class="">{{ post.created }}</span>
+                                        <a href="#" class="link ml-auto">{{ post.author }}</a>
+                                    </div>
+                                    <h5 class="font-medium m-t-20"><a href="{{ post.get_absolute_url }}" class="link">{{ post.title }}</a></h5>
+                                    <p class="m-t-20 m-b-20">{{ post.body|truncatewords:20 | striptags }}</p>
+                                    <div class="d-flex no-block font-13">
+
+                                        <a href="#" class="ml-auto link"><i class="icon-Speach-Bubble8 font-20 vm"></i> 5</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                      <div class="text-center"><a class="btn btn-lg btn-success" href="{% url "blog:post_list" %}">Więcej wpisów</a></div>
+                    </div>      
+                </div>
+                
+                <!-- ============================================================== -->
+                <!-- End Blog home 4  -->
+                <!-- ============================================================== -->
+
+{% endblock %}

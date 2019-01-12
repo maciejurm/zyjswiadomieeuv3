@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel użytkownika{% endblock %}
+
+{% block content %}
+    <div class="container mb-5">
+    <div class="row">
+        <div class="col-lg-3">
+    <div class="list-group">
+        <a href="" class="list-group-item list-group-item-action">
+            Edytuj dane
+  </a>
+        <a href="" class="list-group-item list-group-item-action">
+        Konta społecznościowe
+  </a>
+  <a href="{% url "logout" %}" class="list-group-item list-group-item-action">
+    Wyloguj
+  </a>
+</div>
+        </div>
+        <div class="col-lg-7">
+            <p>Witaj {{ request.user.username }}. W tym panelu możesz zmienić swoje dane lub połączyć się z nowym kontem społecznościowym, aby logowanie było jeszcze łatwiejsze i szybsze.</p>
+        </div>
+    </div>
+    </div>
+{% endblock %}

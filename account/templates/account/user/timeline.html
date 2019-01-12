@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load activity_tags %}
+{% block title %} Tablica aktywności {% endblock %}
+{% block profilestyle %}
+    <link href= "{% static "css/style-profile.css" %}" rel="stylesheet">
+    <link href= "{% static "css/page.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+<div class="container">
+        <div class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+            <div id="newsfeed-items-grid">
+
+                <div class="ui-block">
+                    <!-- Post -->
+                {% for activity in activities %}
+                    {% render_activity activity %}
+                {% endfor %}
+
+
+            <a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid">
+                <svg class="olymp-three-dots-icon">
+                    <use xlink:href="{% static "svg-icons/sprites/icons.svg" %}#olymp-three-dots-icon"></use>
+                </svg>
+            </a>
+        </div>
+</div>
+</div>
+
+        <!-- ... end Main Content -->
+{% endblock %}

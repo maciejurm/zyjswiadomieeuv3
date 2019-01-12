@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %} Żyj świadomie - strona główna {% endblock %}
+{% load thumbnail %}
+{% load static %}
+{% block content %}
+          <!-- Titlebar
+================================================== -->
+
+                <section class="secrets mt-4">
+                <div class="container">
+                    <article>
+                        <h2 class="subtitle"><span>Najnowsze artykuły</span></h2>
+                        <div class="row">
+                            {% for post in posts %}
+
+                            <div class="{% cycle 'col-12 col-sm-12 col-lg-5 entries-primary' 'col-12 col-sm-6 col-lg-3 entries-secondary' 'col-12 col-sm-6 col-lg-3 entries-secondary' %}">
+                                <div class="entries-img">
+                                    {% thumbnail post.image "400" crop="center" as im %}
+                                        <a href="{{ post.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ post.title }}"></a>
+                                        {% endthumbnail %}
+                                </div>
+                                <div class="entries-meta mt-3 mb-1">
+                                  <!--  <span class="meta-comments "><a href="#">7</a></span>
+                                    <span class="meta-category "><a href="">RECIPES</a></span> -->
+                                </div>
+                                <div class="entry-title alfa-entries-title-serif">
+                                    <h3><a href="{{ post.get_absolute_url }}"> {{ post.title }}</a></h3>
+                                    <p>{{ post.body|truncatewords:10|striptags }}</p>
+                                </div>
+                                <a class="btn g1-button g1-button-b action-link mt-2" role="button" href="{{ post.get_absolute_url }}"> Czytaj dalej.. </a>
+                            </div>
+
+                            {% endfor %}
+
+                    </article>
+                </div>
+            </section>
+
+                <section class="secrets mt-4">
+                <div class="container">
+                    <article>
+                        <h2 class="subtitle"><span>Najbliższe wydarzenia</span></h2>
+                        <div class="row">
+                            {% for event in events %}
+
+                            <div class="{% cycle 'col-12 col-sm-12 col-lg-5 entries-primary' 'col-12 col-sm-6 col-lg-3 entries-secondary' 'col-12 col-sm-6 col-lg-3 entries-secondary' %}">
+                                <div class="entries-img">
+                                    {% thumbnail event.image "400" crop="center" as im %}
+                                        <a href="{{ event.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ event.title }}"></a>
+                                        {% endthumbnail %}
+                                </div>
+                                <div class="entries-meta mt-3 mb-1">
+                                <!--    <span class="meta-comments "><a href="#">7</a></span>
+                                    <span class="meta-category "><a href="">RECIPES</a></span> -->
+                                </div>
+                                <div class="entry-title alfa-entries-title-serif">
+                                    <h3><a href="{{ event.get_absolute_url }}"> {{ event.title }}</a></h3>
+                                    <p>{{ event.body|truncatewords:10|striptags }}</p>
+                                </div>
+                                <a class="btn g1-button g1-button-b action-link mt-2" role="button" href="{{ event.get_absolute_url }}"> Więcej informacji </a>
+                            </div>
+
+                            {% endfor %}
+
+                    </article>
+                </div>
+            </section>
+
+
+{% endblock %}

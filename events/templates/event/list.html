@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Wydarzenia {% endblock %}
+{% load static %}
+
+{% block content %}
+{% load thumbnail %}
+<style>
+.events{
+    background-image: url('{% static "images/tlo.jpg" %}');
+	background-size: auto;
+    width:100%;
+    height: 500px;
+    padding-top: 5%;
+}
+
+</style>
+
+    <div class="container-fluid">
+        <div class="jumbotron jumbotron-fluid pl-5 pr-5 events">
+            <h1 class="display-5">Wydarzenia Żyj świadomie</h1>
+          <p class="lead text-dark">Szukasz ciekawych wydarzeń ze świata rozwoju, psychologi lub duchowości? Dobrze trafiłeś. Przejrzyj i wybierz coś dla siebie. :)</p>
+          <hr class="my-4">
+            <p class="text-dark"><strong>Tworzysz wydarzenia? Możesz je dodać tutaj całkowicie za darmo:</strong></p>
+          <p class="lead">
+            <a class="btn human_skin" href="{% url "events:event_add" %}" role="button">Dodaj wydarzenie</a>
+          </p>
+        </div>
+    </div>
+
+<!-- Content
+================================================== -->
+<div class="container mb-5">
+	<div class="row">
+
+
+
+		<div class="col-md-12">
+
+			<div class="row">
+
+				<!-- Listing Item -->
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                {% thumbnail event.image "300" crop="center" as im %}
+                    <a href="{{ event.get_absolute_url }}"><img src="{{ im.url }}" class="card-img-top"></a>
+                {% endthumbnail %}
+                    <div class="card-body">
+                        <div class="card-title">
+                        <a href="{{ event.get_absolute_url }}">
+                           <h5>{{ event.title }}</h5>
+                        </a>
+                        </div>
+                        <div class="card-text">
+                            <p>{{ event.body|truncatewords:10|striptags }}</p>
+                        </div>
+                            <footer>
+                                <p class="entry-with-avatar mt-3">
+                                    <span class="entry-author">
+                                     <span class="entry-meta-label"></span> <strong class="name">{{ event.author }}</strong>
+                                        <a href="{{ event.author.get_absolute_url }}" title="{{ event.author }}" rel="author">
+                                            {% thumbnail event.author.profile.photo "150x150" crop="center" as im %}
+                                            <img alt="{{ event.author }}" src="{{ im.url }}" width="30" height="30">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </span>
+                                    <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">Start: {{ event.date_start }}</time>
+                                </p>
+                            </footer>
+
+                    </div>
+                </div>
+            </div>
+                </div>
+				<!-- Listing Item / End -->
+            {% endfor %}
+			</div>
+		</div>
+</div>
+    </div>
+	</div>
+</div>
+
+
+
+
+{% endblock %}

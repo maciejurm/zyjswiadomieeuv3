@@ -1,0 +1,67 @@
+{% extends "base.html" %} 
+{% load thumbnail %}
+{% load static %}
+
+{% block title %} {{ book.title }} - {{ book.author }} {% endblock %}
+{% block meta %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{ post.body | truncatewords:150 }}">
+<meta name="author" content="{{ post.author }}">
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ post.title }}" /> 
+<meta property="og:image"  content="http://zyjswiadomie.eu{{ post.image.url }}" /> 
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="800" />
+<meta property=”og:description” content="{{ post.body|truncatewords:30 }}" />
+<meta property=”og:url” content="http://zyjswiadomie.eu{{post.get_absolute_url}}" />
+{% endblock %}
+{% block content %}  
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid bg-light">
+                <!-- ============================================================== -->
+                <!-- Team 4  -->
+                <!-- ============================================================== -->
+                <div class="mini-spacer team4">
+                    <div class="container">
+                        <div class="row">
+                                <div class="col-sm-4 col-md-4">
+
+                                </div>
+                                <div class="col-sm-8 col-md-8">
+                                    <h3 class="mb-2"> {{ book.title }} </h3>
+                                    <p> {{ book.summary }} </p>
+                                <p>Autor: {{ book.author }}</p>
+                                <p>Liczba książek autora: {{ book.get_books_count }}</p>
+                                <p>Polubień:
+                                <a href="#" class="post-add-icon inline-items" data-id="{{ book.id }}" data-type="book" data-action="like" title="Like">
+                                    <svg class="olymp-heart-icon" width="25px" height="25px">
+                                        <use xlink:href="{% static "svg-icons/sprites/icons.svg" %}#olymp-like-post-icon"></use>
+                                    </svg>
+                                    <span data-count="like">{{ book.votes.likes.count }}</span>
+                                </a>
+                                </p>
+                                    {% for tag in book.tags.all %}
+                                        <a class="label label-light-success" href="">{{ tag.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Team 4  -->
+                <!-- ============================================================== -->
+            </div>
+        </div>
+    </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+{% endblock %}

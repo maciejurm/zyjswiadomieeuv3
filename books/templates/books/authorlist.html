@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %} Cytaty {% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+                
+
+               <!-- ============================================================== -->
+                <!-- Blog home 4  -->
+                <!-- ============================================================== -->
+                <div class="blog-home4 spacer bg-light">
+                    <div class="container">
+                        <!-- Row  -->
+                        <div class="row justify-content-center">
+                            <!-- Column -->
+                            <div class="col-md-8 text-center">
+                                <h2 class="title">Najnowsi autorzy</h2>
+
+                            </div>
+                            <!-- Column -->
+                            <!-- Column -->
+                        </div>
+                    {% for author in authors %}
+                    <div class="col-3">    
+                            <!-- Column -->
+                                <div class="row">
+                                <div class="card">
+                                    <div class="card-body">
+                                    {% thumbnail author.photo "140x140" crop="center" as im %}
+                                    <div class="col-md-12 pro-pic">
+                                        <img src="{{ im.url }}" alt="wrapkit" class="img-responsive img-circle" />
+                                    </div>
+                                    {% endthumbnail %}
+                                    <div class="col-md-12">
+                                        <div class="p-t-10">
+                                            <h5 class="title font-medium text-center"><a href="{{ author.get_absolute_url }}">{{ author.name }}</a></h5>
+                                            <h6 class="subtitle">Książek: {{ author.get_books_count }}</h6>
+                                            <p>You can relay on our amazing features list and also our customer services will be great experience.</p>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <!-- Column -->
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Blog home 4  -->
+                <!-- ============================================================== -->
+{% endblock %}

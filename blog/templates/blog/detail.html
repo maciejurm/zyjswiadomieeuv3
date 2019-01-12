@@ -1,0 +1,220 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title %} {{ post.title }} {% endblock %}
+{% block meta %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="{{ post.body | truncatewords:150 }}">
+<meta name="author" content="{{ post.author }}">
+<meta property="og:type"   content="article" /> 
+<meta property="og:title"  content="{{ post.title }}" /> 
+<meta property="og:image"  content="http://zyjswiadomie.eu{{ post.image.url }}" /> 
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="800" />
+<meta property=”og:description” content="{{ post.body|truncatewords:30 }}" />
+<meta property=”og:url” content="http://zyjswiadomie.eu{{post.get_absolute_url}}" />
+{% endblock %}
+{% block content %}  
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+
+            <section id="content">
+                <article>
+                    <div class="container entry-media">
+                        <a href=""><img src="{{ post.image.url }}" alt=""></a>
+                        <div class="entry-before-title">
+                            <!--<span class="meta-category meta-common entries-meta"><a href="">RECIPES</a></span> -->
+                            <header>
+                                <h1 class="pt-3">{{ post.title }}</h1>
+                               <h2 class="pb-4 pt-3 mb-0"></h2> 
+                            </header>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <section id="article-content">
+                <div class="container d-flex flex-row flex-wrap" role="main">
+                    <div class="col-12 col-md-8 primary-content pl-0">
+                        <header class="entry-header entry-meta-m g1-meta-m spartan-meta">
+                            <p class="entry-with-avatar">
+                                <span class="entry-author">
+                                      <span class="entry-meta-label">przez</span> <strong class="name">{{ post.author }}</strong>
+                                <a href="" title="Posts by Kim Anderson" rel="author">
+								{% thumbnail post.author.profile.photo "150x150" crop="center" as im %}
+                                        <img alt="post.author" src="{{ im.url }}"  width="40" height="40"></a>
+								{% endthumbnail %}
+								</span>
+                                <time class="entry-date" datetime="2018-12-13T02:06:49" title="{{ post.created_at|timesince }}">{{ post.created_at|timesince }}</time>
+                            </p>
+                            <span class="entry-stats entry-stats-m">
+                               <!--   <span class="entry-views entry-views-trending ">
+                                <strong>1.4k</strong>
+                                  <span> Views</span>
+                            </span> -->
+                            <span class="entry-views entry-comments-link">
+                                  <a href=""><strong>
+								{% with comments.count as total_comments %}
+									{{ total_comments }}
+								{% endwith %}
+								  </strong></a>
+                                </span>
+                            </span>
+                        </header>
+                        <div class="entry-essentials mb-4">
+                            <p class="mt-4 mb-4">
+                              {{ post.body|safe }}
+                            </p>
+                        <p>
+                        Tagi:
+                                        {% for tag in post.tags.all %}
+                                            <a href="{% url "blog:post_list_by_tag" tag.slug %}">{{ tag.name }}</a>
+                                        {% endfor %}
+                        </p>
+                        </div>
+                        <article>
+                                <div class="author-overview mt-4 mb-4">
+                                    <div class="author-overview-inner">
+                                        <a class="author-overview-avatar-inner" href="">
+									{% thumbnail post.author.profile.photo "150x150" crop="center" as im %}
+                                    	<img src="{{ im.url }}" class="author-overview-avatar" width="80" height="80" alt="Participant">
+									{% endthumbnail %}
+								  	</a>
+                                        <header>
+                                            <h2 class="">Dodane przez <a href="" class="text-primary">{{ post.author }}</a></h2>
+                                            <!--<a href="" class="g1-button g1-button-xs action-link ">Follow</a>-->
+                                        </header>
+                                        <div class="author-bio">
+                                            <p>{{ post.author.profile.body }}</p>
+                                        </div>
+                                        <div class="author-extras">
+                                            <div class="row" id="mycred-users-badges">
+                                                <div class="col-md-8 col-12">
+                                                    {% if post.author.profile.facebook %}
+                                                    <a href="{{ post.author.profile.facebook }}"> <img src="{% static "images/iconfinder_facebook_circle_294710.png" %}" width="35" height="35"> </a>
+                                                    {% endif %}
+                                    </div>
+                                                    <div class="col-md-4 col-12">
+                                                        <ul>
+                                                            <li class="g1-socials-item g1-socials-item-facebook">
+                                                                <a href="{{ post.author.profile.facebook }}" target="_blank">
+                                                <i class="socials-item-icon-facebook"></i> </a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </article>
+                            <!-- Mailerlite /-->
+                            <div class="ml-form-embed"
+                              data-account="635797:r9c8m9o6p4"
+                              data-form="1170188:t4t3q3">
+                            </div>
+
+                            <article class="feed-entries mt-4">
+                                <h2 class="subtitle mb-4"><span>Podobne posty</span></h2>
+                                <div class="row">
+                                {% for post in similar_posts %}
+                                    <div class="col-md-6 col-12 entries-primary">
+                                        <div class="entries-img">
+                                        {% thumbnail post.image "500" crop="center" as im %}
+                                            <a href="{{ post.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ post.title }}"></a>
+                                        {% endthumbnail %}
+                                        </div>
+                                        <div class="entries-meta mt-3">
+                                            <span class="meta-category meta-common"><a href="">RECIPES</a></span>
+                                        </div>
+                                        <div class="entry-title beta-entries-title-serif">
+                                            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                                            <span class="meta-common"><strong>{{ post.body|truncatewords:30 }}</strong></span>
+                                        </div>
+                                        <div class="entry-call-action ">
+                                            <a class="btn g1-button g1-button-s action-link " role="button" href="{{ post.get_absolute_url }}"> Czytaj dalej </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </article>
+
+                            <article id="comments">
+                                <h2 class="subtitle"><span>Komentarze</span></h2>
+                                <ol class="comment-list">
+								{% for comment in comments %}
+                                    <li class="comment mt-3">
+                                        <article class="comment-body">
+                                            <div class="autor-box d-flex pt-2">
+                                                <div class="comment-author pr-2">
+												{% thumbnail comment.author.profile.photo "150x150" crop="center" as im %}
+                                                    <img  alt="" src="{{ im.url }}" class="mr-3" width="40" height="40">
+												{% endthumbnail %}
+                                                    <b><a href="" class="beta-entries-title-serif"><span>{{ comment.author }}</span></a></b>
+                                                </div>
+                                                <div class="comment-metadata spartan-meta">
+                                                    <a  href=""> <time datetime="2016-02-01T12:24:09" title="February 1, 2016 at 12:24 pm">{{ comment.created_at|timesince }}</time></a>
+                                                </div>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>{{ comment.body }}
+                                                </p>
+                                            </div>
+                                            <div class="reply">
+                                                <a class="comment-reply-link" href=""  aria-label="Reply to Kim Anderson">Reply</a>
+                                            </div>
+                                        </article>
+                                    </li>
+								{% endfor %}
+                                   
+                                </ol>
+                                <div class="comment-respond mb-5">
+                                    {% if request.user.is_authenticated %}
+                                    <h2 class="subtitle mb-3"><span>Dodaj komentarz</span></h2>
+
+                                    {% if new_comment %}
+				<h4>Twój komentarz został dodany! :)</h4>
+				{% else %}
+			
+				<form method="post" class="add-comment" >
+					{% csrf_token %}
+					{{ comment_form|crispy }}
+					
+					<button type="submit" class="g1-button g1-button-b human_skin">Dodaj komentarz</button>
+					<div class="clearfix"></div>
+				</form>
+				{% endif %}
+                                {% else %}
+                                <p>Musisz być zalogowany aby dodać komentarz. <a href="{% url "login" %}">Zaloguj</a> lub <a href="{% url "register" %}">Zarejestruj.</a> </p>
+                {% endif %}
+                                </div>
+                            </article>
+
+                        </div>
+                    
+                    <!--Asided widget is here-->
+                    <aside class="col-12 col-md-4 widget-content" id="widget">
+
+                        <article>
+                            <h2 class="subtitle mt-4 mb-4"><span>Żyj świadomie na facebooku</span></h2>
+                            <div>
+                                <!-- for temporary use, delete in case replacing-->
+                                <div class="fb-page" data-href="https://www.facebook.com/zyjswiadomieeu" data-hide-cover="false" data-show-facepile="false"></div>
+                                <div id="fb-root"></div>
+                                <script>
+                                (function(d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v3.2';
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+                                </script>
+                                <!-- for temporry use, delete in case replacing-->
+                            </div>
+                        </article>
+                    </aside>
+                    <!--End of asided widget is here-->
+                </div>
+            </section> 
+
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %} Cytaty {% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+                
+  <!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Artykuły</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li>Listings</li>
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+	<div class="row">
+
+
+
+		<div class="col-md-12">
+
+			<div class="row">
+
+				<!-- Listing Item -->
+            {% for quote in quotes %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ quote.get_absolute_url }}">
+                        <blockquote class="blockquote">
+                            <p>"{{ quote.quote }}"</p>
+
+                        </blockquote>
+                        </a>
+                            <footer>
+                                <p class="entry-with-avatar mt-3">
+                                    <span class="entry-author">
+                                     <span class="entry-meta-label"></span> <strong class="name">{{ quote.author }}</strong>
+                                        <a href="{{ quote.author.get_absolute_url }}" title="{{ quote.author }}" rel="author">
+                                            {% thumbnail quote.author.photo "150x150" crop="center" as im %}
+                                            <img alt="" src="{{ im.url }}" width="30" height="30">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </span>
+                                    <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">Dodano: {{ quote.created_at|timesince }}</time>
+                                </p>
+                            </footer>
+
+                    </div>
+                </div>
+            </div>
+                </div>
+				<!-- Listing Item / End -->
+            {% endfor %}
+			</div>
+		</div>
+</div>
+    </div>
+	</div>
+</div>
+
+                        {% include "pagination.html" with page=posts %}
+
+
+{% endblock %}

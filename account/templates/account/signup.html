@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    {% load crispy_forms_tags %}
+
+  <div class="container mb-5">
+  <div class="row">
+    <div class="col-lg-4">
+      <h2>Rejestracja</h2>
+
+      <form method="post">
+
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-primary" type="submit">Zarejestruj</button>
+  </form>
+    </div>
+  <div class="col-lg-8 mt-3">
+      <h3>Jakie możliwości daje rejestracja na Żyj świadomie?</h3>
+
+      <dl>
+   <dt>Dodawanie treści</dt>
+  <dd>Logując się możesz dodawać treści które Cię inspirują, takie jak cytaty, fragmenty książek lub jeśli tworzysz wydarzenia podzielić się nimi ze społecznością.</dd>
+          <dt>Dodawanie komentarzy</dt>
+  <dd>Będziesz mógł/a dyskutować z innymi użytkownikami na ciekawe tematy.</dd>
+      </dl>
+      <h3>Już niedługo na Żyj świadomie:</h3>
+      <p>Portal dopiero startuje, w drodze są już takie opcje jak:</p>
+      <dl>
+      <dt>Dodawanie książek</dt>
+  <dd>Już niedługo każdy użytkownik będzie mógł dodać książkę którą chce polecić innym użytkownikom lub taką którą chce przeczytać i chce sprawdzić czy warto ją przeczytać. Każdy użytkownik będzie mógł polubić książkę lub dodać opinie jeśli ją czytał.</dd>
+      <dt>Profile użytkowników</dt>
+  <dd>Każdy użytkownik będzie mógł obserwować innych użytkowników. Więc jeśli ktoś Cię zainspiruje, będziesz mógł obserwować jego działania.</dd>
+              <dt>Dodawanie filmów</dt>
+  <dd>W internecie jest mnóstwo inspirujących nagrań. Dlatego postanowiłem stworzył dział wideo do którejgo każdy użytkownik będzie mógł coś wrzucić. Będzie można wrzucać filmiki z youtube i pokrewnych serwisów.</dd>
+      </dl>
+  </div>
+  </div>
+  </div>
+{% endblock %}

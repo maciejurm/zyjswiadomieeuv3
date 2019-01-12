@@ -1,0 +1,16 @@
+                            <div class="subscribe-box-newsletter mt-4">
+                                <div class="subscribe-form">
+                                    <div class="box-icon"></div>
+                                    <form class="subscribe-box-newsletter-form" method="post" data-name="Default sign-up form">
+                                        <header>Get the best viral stories straight into your inbox!</header>
+                                        <p>Get the best viral stories straight into your inbox!</p>
+                                        <div class="form-fields">
+                                            <p><input type="email" name="email" placeholder="Your email address" required=""></p>
+                                            <p><input class="g1-button g1-button-b human_skin" type="submit" value="Subscribe"></p>
+                                        </div>
+                                        <p class="g1-meta">Don't worry, we don't spam</p>
+                                    </form>
+                                </div>
+                                <div class="subscribe-box-newsletter-background">
+                                </div>
+                            </div>

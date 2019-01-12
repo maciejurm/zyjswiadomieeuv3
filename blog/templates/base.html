@@ -1,0 +1,250 @@
+{% load static %}
+{% load google_analytics %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    {% block meta %}{% endblock %}
+    {% block javascript %}{% endblock %}
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>{% block title %}{% endblock %}</title>
+    {% google_analytics %}
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "assets/node_modules/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- This is for the animation CSS -->
+    <link href="{% static "assets/node_modules/aos/dist/aos.css" %}"  rel="stylesheet" >
+    <!-- This page plugin CSS -->
+    <link href="{% static "assets/node_modules/bootstrap-touch-slider/bootstrap-touch-slider.css" %}" rel="stylesheet">
+    <link href="{% static "assets/node_modules/owl.carousel/dist/assets/owl.theme.green.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- This css we made it from our predefine componenet 
+    we just copy that css and paste here you can also do that -->
+    <link href="{% static "css/demo.css" %}" rel="stylesheet">
+    <!-- Common style CSS -->
+    <link href= "{% static "css/yourstyle.css" %}" rel="stylesheet">
+    <link href= "{% static "css/style.css" %}" rel="stylesheet">
+    {% block profilestyle %}
+    {% endblock %}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> 
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="">
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <div class="topbar">
+                <!-- ============================================================== -->
+                <!-- Header 1  -->
+                <!-- ============================================================== -->
+                <div class="header1 po-relative">
+                    <div class="container">
+                        <!-- Header 1 code -->
+                        <nav class="navbar navbar-expand-lg h1-nav">
+                            <a href="{% url "home" %}"><img src="{% static "images/mniejszelogo.png" %}" alt="Żyj świadomie" /></a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header1" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="ti-menu"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="header1">
+                                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                                    <li class="nav-item active"><a class="nav-link" href="{% url "home" %}">Strona główna</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url "blog:post_list" %}">Artykuły</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Kontakt</a></li>
+                                    <li class="nav-item"><a class="btn btn-outline-success" href="#">Współpraca</a></li>
+                                    <ul class="navbar-nav mt-2 mt-md-0">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img class="rounded-circle" width="30" height="30" src="{{ user.profile.photo.url }}" alt="{{ user.username }}">
+                                                {{ user.username }}
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="userMenu">
+                                                <a class="dropdown-item" href="#">Edycja profilu</a>
+                                                <a class="dropdown-item" href="#">Ustawienia</a>
+                                                <a class="dropdown-item" href="#">Powiadomienia</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Wyloguj</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </div>
+                        </nav>
+                        <!-- End Header 1 code -->
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Header 1  -->
+                <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+
+        {% block content %}
+        {% endblock %}
+
+        <!-- ============================================================== -->
+        <!-- footer 4  -->
+        <!-- ============================================================== -->
+        <div class="footer4 spacer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 m-b-30">
+                        <h5 class="m-b-20">Adres</h5>
+                        <p>Puck, Żeromskiego</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30">
+                        <h5 class="m-b-20">Współpraca</h5>
+                        <a href="#" class="link">wspolpraca@zyjswiadomie.eu</a></p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-30">
+                        <h5 class="m-b-20">Kontakt</h5>
+                        <p>Ogólne pytania : <a href="#" class="link">maciej@zyjswiadomie.eu</a>
+
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="m-b-20">Żyj świadomie w sieci</h5>
+                        <div class="round-social light">
+                            <a href="https://www.facebook.com/zyjswiadomieeu/" class="link"><i class="fa fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="f4-bottom-bar">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-flex font-14">
+                                <div class="m-t-10 m-b-10 copyright">Żyj świadomie 2018</div>
+                                <div class="links ml-auto m-t-10 m-b-10">
+                                    <a href="#" class="p-10 p-l-0">Regulamin</a>
+                                    <a href="#" class="p-10">Polityka prywatności</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- footer 4  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+    <script src="{% static "js/app.js" %}"></script>
+    <script src="{% static "assets/node_modules/jquery/dist/jquery.min.js" %}"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="{% static "assets/node_modules/popper/dist/popper.min.js" %}"></script>
+    <script src="{% static "assets/node_modules/bootstrap/js/bootstrap.min.js" %}"></script>
+    <!-- This is for the animation -->
+    <script src="{% static "assets/node_modules/aos/dist/aos.js" %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static "js/custom.min.js" %}"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <script src="{% static "assets/node_modules/jquery.touchSwipe.min.js" %}"></script>
+    <script src="{% static "assets/node_modules/bootstrap-touch-slider/bootstrap-touch-slider.js" %}"></script>
+    <script src="{% static "assets/node_modules/owl.carousel/dist/owl.carousel.min.js" %}"></script>
+    <script type="text/javascript">
+    $('#slider6').bsTouchSlider();
+    /*******************************/
+    // this is for the testimonial 10
+    /*******************************/
+    $('.testi10').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: false,
+        dots: false,
+        autoplay: true,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            1650: {
+                items: 1
+            }
+        }
+    });
+    // This is for the static slider 6
+    $('.video-img').on('click', function() {
+        $(this).addClass('hide');
+        $('.embed-responsive').show()
+            .removeClass('hide');
+        $("video").each(function() { this.play() });
+    });
+    </script>
+
+<script>   
+    function like()
+    {
+        var like = $(this);
+        var type = like.data('type');
+        var pk = like.data('id');
+        var action = like.data('action');
+        var dislike = like.next();
+     
+        $.ajax({
+            url : "/api/" + type +"/" + pk + "/" + action + "/",
+            type : 'POST',
+            data : { 'obj' : pk },
+     
+            success : function (json) {
+                like.find("[data-count='like']").text(json.like_count);
+                dislike.find("[data-count='dislike']").text(json.dislike_count);
+            }
+        });
+     
+        return false;
+    }
+     
+    function dislike()
+    {
+        var dislike = $(this);
+        var type = dislike.data('type');
+        var pk = dislike.data('id');
+        var action = dislike.data('action');
+        var like = dislike.prev();
+     
+        $.ajax({
+            url : "/api/" + type +"/" + pk + "/" + action + "/",
+            type : 'POST',
+            data : { 'obj' : pk },
+     
+            success : function (json) {
+                dislike.find("[data-count='dislike']").text(json.dislike_count);
+                like.find("[data-count='like']").text(json.like_count);
+            }
+        });
+     
+        return false;
+    }
+     
+    // Connecting Handlers
+    $(function() {
+        $('[data-action="like"]').click(like);
+        $('[data-action="dislike"]').click(dislike);
+    });
+</script>    
+
+</body>
+
+</html>

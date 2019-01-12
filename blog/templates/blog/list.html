@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Artykuły {% endblock %}
+
+{% block content %}
+{% load thumbnail %}
+                <!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Artykuły</h2>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+            <section class="moreStories mt-4">
+                <div class="container">
+                    <div class="row">
+                        <article class="col-12 col-md-8 feed-entries">
+
+                            <div class="row">
+                                {% for post in posts %}
+                                <div class="col-md-6 col-12 entries-primary">
+                                    <div class="entries-img">
+                                        {% thumbnail post.image "400" crop="center" as im %}
+                                        <a href="{{ post.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ post.title }}"></a>
+                                        {% endthumbnail %}
+                                    </div>
+                                    <div class="entries-meta mt-2">
+
+                                        <span class="meta-comments "><a href="#">7</a></span>
+                                       <!-- <span class="meta-category "><a href="">RECIPES</a></span> -->
+                                    </div>
+                                    <div class="entry-title beta-entries-title-serif">
+                                        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                                        <p>{{ post.body|truncatewords:15|striptags }}</p>
+                                    </div>
+                                    <footer>
+                                        <p class="entry-with-avatar">
+                                            <span class="entry-author">
+                              <span class="entry-meta-label">przez</span> <strong class="name">{{ post.author }}</strong>
+                                            <a href="" title="Posts by Kim Anderson" rel="author">
+                                                {% thumbnail post.author.profile.photo "150x150" crop="center" as im %}
+                                                    <img alt="" src="{{ im.url }}" width="30" height="30">
+                                            {% endthumbnail %}
+                                            </a>
+                                            </span>
+                                            <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">{{ post.created_at|timesince }}</time></p>
+                                    </footer>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="load-entries mt-4 mb-4">
+                                {% include "pagination.html" with page=posts %}
+                               <!-- <p><input class="g1-button g1-button-b human_skin" type="submit" value="Load more"></p> -->
+                            </div>
+                        </article>
+                        <!-------------WIDGET IS HERE-------------->
+                        <!-------End aside block------->
+                        <!----
+                        <aside class="col-12 col-md-4" id="widget">
+                            <div class="subscribe-box-newsletter">
+                                <div class="subscribe-form">
+                                    <div class="box-icon"></div>
+                                    <form id="subscribe-box-newsletter-form" method="post" data-name="Default sign-up form">
+                                        <header>Get the best viral stories straight into your inbox!</header>
+                                        <p><input type="email" name="email" placeholder="Your email address" required=""></p>
+                                        <p><input class="g1-button g1-button-b human_skin" type="submit" value="Subscribe"></p>
+                                        <p class="g1-meta">Don't worry, we don't spam</p>
+                                    </form>
+                                </div>
+                                <div class="subscribe-box-newsletter-background">
+                                </div>
+                            </div>
+                           --->
+                            <article>
+                                <h2 class="subtitle mt-4 mb-4"><span>Dołącz do Żyj świadomie na Facebooku</span></h2>
+                                <div>
+                                    <!-- for temporary use, delete in case replacing-->
+                                    <div class="fb-page" data-href="https://www.facebook.com/zyjswiadomieeu" data-hide-cover="false" data-show-facepile="false"></div>
+                                    <div id="fb-root"></div>
+                                    <script>
+                                    (function(d, s, id) {
+                                        var js, fjs = d.getElementsByTagName(s)[0];
+                                        if (d.getElementById(id)) return;
+                                        js = d.createElement(s);
+                                        js.id = id;
+                                        js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v3.2';
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));
+                                    </script>
+                                    <!-- for temporry use, delete in case replacing-->
+                                </div>
+                            </article>
+                        </aside>
+                        <!-------End aside block------->
+                        <!------------- END WIDGET IS HERE-------------->
+                    </div>
+                </div>
+
+            </section>
+
+
+
+{% endblock %}
