@@ -10,12 +10,24 @@
     <div class="col-lg-4">
       <h2>Rejestracja</h2>
 
-      <form method="post">
+      <form method="post" class="mb-2">
 
     {% csrf_token %}
     {{ form|crispy }}
     <button class="btn btn-primary" type="submit">Zarejestruj</button>
   </form>
+        <p>lub zarejestruj się przez:</p>
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v3.2&appId=418971971846760&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+      <a href="{% url 'social:begin' 'facebook' %}">  <div class="fb-login-button" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div> </a>
+
     </div>
   <div class="col-lg-8 mt-3">
       <h3>Jakie możliwości daje rejestracja na Żyj świadomie?</h3>

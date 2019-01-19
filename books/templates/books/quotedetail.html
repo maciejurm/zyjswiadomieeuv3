@@ -15,83 +15,66 @@
 <meta property=”og:description” content="{{ post.body|truncatewords:30 }}" />
 <meta property=”og:url” content="http://zyjswiadomie.eu{{post.get_absolute_url}}" />
 {% endblock %}
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover();
+});
+</script>
+{% endblock %}
 {% block content %}  
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <div class="container-fluid bg-light">
-                <!-- ============================================================== -->
-                <!-- Team 4  -->
-                <!-- ============================================================== -->
-                <div class="mini-spacer team4">
-                    <div class="container">
-                        <div class="row m-t-30">
-                            <!-- column  -->
-                            <div class="col-lg-3 m-b-30">
-                                <!-- Row -->
-                                <div class="card">
-                                    <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                    {% thumbnail quote.author.photo "160x160" crop="center" as im %}
-                                        <img src="{{ im.url }}" alt="wrapkit" class="img-responsive img-circle" width="30" height="30" />
-                                    {% endthumbnail %}
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="p-t-10">
-                                            <h5 class="title font-medium mb-3">{{ quote.author }}</h5>
-                                            <h6 class="subtitle mt-3 mb-3 text-dark">Książek: {{ books_count }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                <!-- Row -->
-                            </div>
-                            <!-- column  -->
-                            <div class="col-lg-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h1 class="card-title text-left">Cytat:</h1>                                        
-                                            <p class="text-justify text-dark">{{quote.quote}}</p>
-                                <p>Polubień:
-                                <a href="#" class="post-add-icon inline-items" data-id="{{ quote.id }}" data-type="quote" data-action="like" title="Like">
-                                    <svg class="olymp-heart-icon" width="25px" height="25px">
-                                        <use xlink:href="{% static "svg-icons/sprites/icons.svg" %}#olymp-like-post-icon"></use>
-                                    </svg>
-                                    <span data-count="like">{{ quote.votes.likes.count }}</span>
-                                </a>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% thumbnail quote.author.photo "200x200" crop='center' as im %}
+                <img src="{{ im.url }}" class="img-responsive">
+                {% endthumbnail %}
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-5">
+                <div class="card-body">
+                    <blockquote class="blockquote">
+                {{ quote.quote }}
+                        <footer class="blockquote-footer"><a href="{{ quote.quote_author.get_absolute_url }}">{{ quote.author }}</a></footer>
+                    </blockquote>
+
+                    <footer>
+                                <p class="entry-with-avatar mt-3">
+                                    <span class="entry-author">
+                                     <span class="entry-meta-label"></span> <strong class="name">Dodany przez: {{ quote.added_by }}</strong>
+                                        <a href="#" title="{{ quote.author }}" rel="author">
+                                            {% thumbnail quote.added_by.profile.photo "150x150" crop="center" as im %}
+                                            <img alt="" src="{{ im.url }}" width="30" height="30">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </span>
+                                    <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">Dodany: {{ quote.created_at|timesince }}</time>
                                 </p>
+                            </footer>
+                {% if request.user.is_authenticated %}
+  <button data-id="{{ quote.id }}" data-type="quote" data-action="like" title="Like" type="button" class="btn btn-sm btn-danger"><i class="fa fa-heart"></i> Lubię to! <span data-count="like">{{ quote.votes.likes.count }}</span></button>
+
+                {% else %}
+
+                    <button type="button" class="btn btn-sm btn-danger" data-container="body" data-toggle="popover" data-placement="top"
+                                       data-content="Musisz się zalogować lub zarejestrować, aby polubić ten cytat. Kliknij przycisk zaloguj w prawym górnym rogu aby zobaczyć korzyści z rejestracji.">
+                        <i class="fa fa-heart"></i> Lubię to!
+                    </button>
+
+                {% endif %}
+                                 <p class="mt-3">
                                     Tagi:
                                         {% for tag in quote.tags.all %}
                                             <a class="label label-light-success" href="{% url "books:quotes_list_by_tag" tag.slug %}">{{ tag.name }}</a>
                                         {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                <div class="card-body">
-                                <h5 class="card-title">Podobne cytaty</h5>                                        
-                                    
-                                </div>
-                                </div>    
-                        </div>
-                        </div>
-                        <!-- Block o mnie -->
-                    </div>
+                                </p>
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Team 4  -->
-                <!-- ============================================================== -->
+                </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+    </div>
+
 
 {% endblock %}

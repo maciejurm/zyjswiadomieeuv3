@@ -11,15 +11,10 @@
 		<div class="row">
 			<div class="col-md-12">
 
-				<h2>Artykuły</h2>
+				<h2>Cytaty</h2>
+                <p>Cytaty dodane przez użytkowników Żyj świadomie.</p>
+               <a href="{% url "books:quote_add" %}"> <button class="btn human_skin mb-3">Dodaj cytat</button></a>
 
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs">
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li>Listings</li>
-					</ul>
-				</nav>
 
 			</div>
 		</div>
@@ -29,7 +24,7 @@
 
 <!-- Content
 ================================================== -->
-<div class="container">
+<div class="container mb-5">
 	<div class="row">
 
 
@@ -40,7 +35,7 @@
 
 				<!-- Listing Item -->
             {% for quote in quotes %}
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <a href="{{ quote.get_absolute_url }}">
@@ -51,6 +46,7 @@
                         </a>
                             <footer>
                                 <p class="entry-with-avatar mt-3">
+                            {% if quote.author %}
                                     <span class="entry-author">
                                      <span class="entry-meta-label"></span> <strong class="name">{{ quote.author }}</strong>
                                         <a href="{{ quote.author.get_absolute_url }}" title="{{ quote.author }}" rel="author">
@@ -59,14 +55,18 @@
                                             {% endthumbnail %}
                                         </a>
                                     </span>
+                            {% else %}
+                            <p>Autor nieznany</p>
+                            {% endif %}
                                     <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">Dodano: {{ quote.created_at|timesince }}</time>
+
                                 </p>
                             </footer>
 
                     </div>
                 </div>
             </div>
-                </div>
+
 				<!-- Listing Item / End -->
             {% endfor %}
 			</div>
@@ -75,8 +75,5 @@
     </div>
 	</div>
 </div>
-
-                        {% include "pagination.html" with page=posts %}
-
 
 {% endblock %}

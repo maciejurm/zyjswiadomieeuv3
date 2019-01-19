@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Cytaty {% endblock %}
+{% block title %} Książki {% endblock %}
 
 {% block content %}
 {% load thumbnail %}
@@ -8,41 +8,62 @@
                <!-- ============================================================== -->
                 <!-- Blog home 4  -->
                 <!-- ============================================================== -->
-            <div class="blog-home4 spacer bg-light">
+
                     <div class="container">
                         <!-- Row  -->
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center mb-3">
                             <!-- Column -->
                             <div class="col-md-8 text-center">
                                 <h2 class="title">Najnowsze książki</h2>
                                 <h6 class="subtitle">Książki, które warto przeczytać dodane przez społeczność Żyj świadomie.</h6>
+                                <p>Znasz jakąś ciekawą książkę i chcesz się podzielić ze społecznością? Dodaj ją. :)</p>
+                                <a class="btn human_skin" href="{% url "books:book_add" %}" role="button">Dodaj książkę</a>
                             </div>
                             <!-- Column -->
                             <!-- Column -->
                         </div>
                     
-                    <div class="col-lg-3 col-md-3 col-sm-12">
-                    {% for book in books %}
+
+
                             <!-- Column -->
-                            <div class="card card-shadow" data-aos="flip-left" data-aos-duration="1200">
-                            {% thumbnail book.image "200" as im %}
-                                <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ im.url }}" alt="wrappixel kit"></a>
-                            {% endthumbnail %}    
-                                <div class="p-30">
-                                    <div class="d-flex no-block font-13">
-                                        <span class="">{{ book.published | timesince }}</span>
-                                        <a href="#" class="link ml-auto">{{ book.added_by }}</a>
-                                    </div>
-                                    <h5 class="font-medium m-t-20"><a href="#" class="link">{{ book.title }}</a></h5>
-                                    <div class="card-text m-b-2">{{ book.summary | truncatewords:30 }}</div>
-                                    <div class="d-flex no-block font-13">
-                                        <a href="#" class="text-success text-uppercase">Autor: {{ book.author }}</a>
-                                    </div>
-                                </div>
+
+			<div class="row mb-5">
+      {% for book in books %}
+                    <div class="col-lg-3 col-md-3 col-sm-6">
+                            <div class="card">
+                    {% thumbnail book.image "200" as im %}
+                        <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ im.url }}" alt="wrappixel kit"></a>
+                    {% endthumbnail %}
+                    <div class="card-body">
+
+                            <div class="card-title">
+                                 <a href="{{ book.get_absolute_url }}"><h3>{{ book.title }}</h3></a>
                             </div>
-                            <!-- Column -->
-                        {% endfor %}
+                            <div class="card-text">
+                                <p>{{ book.summary|truncatewords:10|striptags }}</p>
+                            </div>
+
+                            <footer>
+                                <p class="entry-with-avatar mt-3">
+                                    <span class="entry-author">
+                                     <span class="entry-meta-label"></span> <strong class="name">{{ book.author }}</strong>
+                                        <a href="{{ book.author.get_absolute_url }}" title="{{ book.author }}" rel="author">
+                                            {% thumbnail book.author.photo "150x150" crop="center" as im %}
+                                            <img alt="" src="{{ im.url }}" width="30" height="30">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </span>
+                                    <time class="entry-date" datetime="2018-12-13T02:06:49" title="December 13, 2018, 2:06 am">Dodano: {{ book.created_at|timesince }}</time>
+                                </p>
+                            </footer>
+
                     </div>
+                </div>
+                </div>
+
+                            <!-- Column -->
+      {% endfor %}
+
                       </div>
                     </div>
                     

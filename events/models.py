@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from stream_django.activity import Activity
 from django.urls import reverse
 from tinymce import HTMLField
-from places.fields import PlacesField
 
 class Event(models.Model, Activity):
     title = models.CharField(max_length=255, verbose_name='Tytuł')

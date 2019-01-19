@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from django.views import View
 from django.contrib.contenttypes.models import ContentType
 from .models import LikeDislike, LikeDislikeManager
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
+
 class VotesView(View):
+
     model = None    # Data Model - Articles or Comments
     vote_type = None # Vote type Like/Dislike
  

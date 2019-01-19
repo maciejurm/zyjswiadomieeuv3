@@ -10,12 +10,24 @@
     <div class="col-lg-4">
       <h2>Zaloguj się</h2>
 
-      <form method="post">
+      <form method="post" class="mb-2">
 
     {% csrf_token %}
     {{ form|crispy }}
     <button class="btn btn-primary" type="submit">Zaloguj</button>
   </form>
+<p>lub zaloguj się przez:</p>
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v3.2&appId=418971971846760&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+      <a href="{% url 'social:begin' 'facebook' %}">  <div class="fb-login-button" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="true"></div> </a>
+
     </div>
   <div class="col-lg-6">
       <h3>Jakie możliwości daje rejestracja na Żyj świadomie?</h3>
@@ -25,12 +37,13 @@
   <dd>Logując się możesz dodawać treści które Cię inspirują, takie jak cytaty, fragmenty książek lub jeśli tworzysz wydarzenia podzielić się nimi ze społecznością.</dd>
           <dt>Dodawanie komentarzy</dt>
   <dd>Będziesz mógł/a dyskutować z innymi użytkownikami na ciekawe tematy.</dd>
+          <dt>Dodawanie książek i cytatów</dt>
+  <dd>Każdy użytkownik może dodawać ulubione książki i cytaty, tak aby zainspirować innych lub polecić ciekawą książkę i pomóc rozwijać świadome życie. Każdy użytkownik może też polubić daną książkę, aby zarekomendować ją innym.</dd>
       </dl>
       <h3>Już niedługo na Żyj świadomie:</h3>
       <p>Portal dopiero startuje, w drodze są już takie opcje jak:</p>
       <dl>
-      <dt>Dodawanie książek</dt>
-  <dd>Już niedługo każdy użytkownik będzie mógł dodać książkę którą chce polecić innym użytkownikom lub taką którą chce przeczytać i chce sprawdzić czy warto ją przeczytać. Każdy użytkownik będzie mógł polubić książkę lub dodać opinie jeśli ją czytał.</dd>
+
       <dt>Profile użytkowników</dt>
   <dd>Każdy użytkownik będzie mógł obserwować innych użytkowników. Więc jeśli ktoś Cię zainspiruje, będziesz mógł obserwować jego działania.</dd>
               <dt>Dodawanie filmów</dt>

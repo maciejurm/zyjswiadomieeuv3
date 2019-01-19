@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="container mb-5">
+  <h2>Konta społecznościowe</h2>
+
+  <h3>Facebook</h3>
+  {% if facebook_login %}
+    <p>Connected as <a href="https://facebook.com/{{ facebook_login.extra_data.id }}/" target="_blank">{{ facebook_login.extra_data.id }}</a></p>
+    {% if can_disconnect %}
+      <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+        {% csrf_token %}
+        <button type="submit">Odłącz konto Facebooka</button>
+      </form>
+    {% else %}
+      <button type="button" disabled>Odłącz konto Facebooka</button>
+      <p style="color: red">Musisz ustawić <a href="{% url 'password' %}">hasło</a> do swojego konta zanim rozłączysz to na Facebooku.</p>
+    {% endif %}
+  {% else %}
+    <a href="{% url 'social:begin' 'facebook' %}">Połącz z Facebookiem</a>
+  {% endif %}
+</div>
+{% endblock %}

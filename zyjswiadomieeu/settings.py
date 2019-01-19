@@ -25,12 +25,15 @@ SECRET_KEY = '^y5zzki%^81o^b*7go7f(ure^5s0wi!&8@sot9vyj1c9w%gj*)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['172.21.0.5', 'django.local', 'zyjswiadomie.life', 'zyjswiadomielife.nanoapp.io']
+
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'reset_migrations',
+    'social_django',
     'account',
     'bootstrap_datepicker_plus',
     'crispy_forms',
@@ -54,7 +59,6 @@ INSTALLED_APPS = [
     'likedislike',
     'comments',
     'tinymce',
-    'places',
 ]
 
 #Flatpages
@@ -111,6 +115,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -129,6 +134,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -142,11 +149,14 @@ WSGI_APPLICATION = 'zyjswiadomieeu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'gonano',
+        'USER': os.environ.get('DATA_DB_USER'),
+        'PASSWORD': os.environ.get('DATA_DB_PASS'),
+        'HOST': os.environ.get('DATA_DB_HOST'),
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -166,6 +176,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '418971971846760'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '0831a20be8714bb80d8494f41c465c0b'  # App Secret
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/account/settings/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/account/settings/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

@@ -1,0 +1,34 @@
+--- 
+data.database: 
+  image: "nanobox/postgresql:9.5"
+
+deploy.config: 
+  extra_steps: 
+    - "python manage.py collectstatic --noinput --clear"
+  before_live:
+    web.main:
+      - python manage.py makemigrations
+      - python manage.py migrate
+run.config: 
+  engine: python
+  engine.config: 
+    runtime: python-3.6
+  extra_packages: 
+    - nginx
+
+data.pliki: 
+  image: nanobox/unfs:0.9
+
+web.main:
+  start: 
+      django: "gunicorn -c /app/etc/gunicorn.py zyjswiadomieeu.wsgi"
+      nginx: "nginx -c /app/etc/nginx.conf"
+  network_dirs:
+    data.pliki:
+      - media
+      - account/migrations
+      - blog/migrations
+      - books/migrations
+      - comments/migrations
+      - events/migrations
+      - likedislike/migrations

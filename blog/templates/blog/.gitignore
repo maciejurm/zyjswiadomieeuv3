@@ -5,3 +5,5 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
+
+https://raw.githubusercontent.com/maciejurm/szybkainstalacjadjango/master/setup.sh && bash setup.sh

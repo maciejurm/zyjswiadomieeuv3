@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from stream_django.feed_manager import feed_manager
-
+from tinymce import HTMLField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cover = models.ImageField(upload_to='cover', null=True)
-    photo = models.ImageField(verbose_name='Zdjęcie profilowe' ,upload_to='profile', null=True)
-    body = models.TextField(verbose_name='O mnie', blank=True, null=True)
+    cover = models.ImageField(upload_to='cover', blank=True, null=True)
+    photo = models.ImageField(verbose_name='Zdjęcie profilowe' ,upload_to='profile', blank=True, null=True)
+    body = HTMLField(verbose_name='O mnie', blank=True, null=True)
     www = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
     phonenumber = models.IntegerField(verbose_name='Numer telefonu', blank=True, null=True, help_text='To pole przydaje się w przypadku tworzenia wydarzeń, aby użytkownicy w łatwy sposób mogli się z Tobą skontaktować.')

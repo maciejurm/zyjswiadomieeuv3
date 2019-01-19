@@ -7,6 +7,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block meta %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 	            <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,19 +17,7 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <!-- Custom CSS -->
 <link href="{% static "css/styles.css" %}" rel="stylesheet">
-
-
-<!-- MailerLite Universal -->
-<script>
-(function(m,a,i,l,e,r){ m['MailerLiteObject']=e;function f(){
-var c={ a:arguments,q:[]};var r=this.push(c);return "number"!=typeof r?r:f.bind(c.q);}
-f.q=f.q||[];m[e]=m[e]||f.bind(f.q);m[e].q=m[e].q||f.q;r=a.createElement(i);
-var _=a.getElementsByTagName(i)[0];r.async=1;r.src=l+'?v'+(~~(new Date().getTime()/1000000));
-_.parentNode.insertBefore(r,_);})(window, document, 'script', 'https://static.mailerlite.com/js/universal.js', 'ml');
-
-var ml_account = ml('accounts', '635797', 'r9c8m9o6p4', 'load');
-</script>
-<!-- End MailerLite Universal -->
+{% block javascript %}{% endblock %}
 </head>
 
 <body class="overflow-everything">
@@ -48,6 +37,8 @@ var ml_account = ml('accounts', '635797', 'r9c8m9o6p4', 'load');
                         <li><a href="/">Strona główna</a></li>
                         <li><a href="{% url "blog:post_list" %}">Artykuły</a></li>
                         <li><a href="{% url "events:event_list" %}">Wydarzenia</a></li>
+                        <li><a href="{% url "books:books" %}">Książki</a></li>
+                        <li><a href="{% url "books:quotes" %}">Cytaty</a></li>
                         <li><a href="{% url "contact" %}">Kontakt</a></li>
                     </ul>
                 </nav>
@@ -80,6 +71,8 @@ var ml_account = ml('accounts', '635797', 'r9c8m9o6p4', 'load');
                     <li class="menu-item"><a href="/">Strona główna</a></li>
                     <li class="menu-item"><a href="{% url "blog:post_list" %}">Artykuły</a></li>
                     <li class="menu-item"><a href="{% url "events:event_list" %}">Wydarzenia</a></li>
+                    <li class="menu-item"><a href="{% url "books:books" %}">Książki</a></li>
+                    <li class="menu-item"><a href="{% url "books:quotes" %}">Cytaty</a></li>
                     <li class="menu-item"><a href="{% url "contact" %}">Kontakt</a></li>
                 </ul>
             </nav>
@@ -154,7 +147,9 @@ var ml_account = ml('accounts', '635797', 'r9c8m9o6p4', 'load');
                     <div class="textwidget">
                         <p>Żyj świadomie to portal w którym znajdziesz wiele inspiracji w postaci artykułów, fragmentów książek czy krótkich cytatów.</p>
                     </div>
+
                 </div>
+
                 <div class="col-12 col-md-3">
                   <!--
                     <h2 class="subtitle"><span>Recent comments</span></h2>
@@ -178,17 +173,95 @@ var ml_account = ml('accounts', '635797', 'r9c8m9o6p4', 'load');
         </div>
     </div>
 </footer>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-{% block java %}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-{% endblock %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+        // Getting a cookie by name
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Setup AJAX
+    $(function () {
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": getCookie("csrftoken") }
+        });
+    });
+</script>
+    <script>
+    function like()
+    {
+        var like = $(this);
+        var type = like.data('type');
+        var pk = like.data('id');
+        var action = like.data('action');
+        var dislike = like.next();
+
+        $.ajax({
+            url : "/api/" + type +"/" + pk + "/" + action + "/",
+            type : 'POST',
+            data : { 'obj' : pk },
+
+            success : function (json) {
+                like.find("[data-count='like']").text(json.like_count);
+                dislike.find("[data-count='dislike']").text(json.dislike_count);
+            }
+        });
+
+        return false;
+    }
+
+    function dislike()
+    {
+        var dislike = $(this);
+        var type = dislike.data('type');
+        var pk = dislike.data('id');
+        var action = dislike.data('action');
+        var like = dislike.prev();
+
+        $.ajax({
+            url : "/api/" + type +"/" + pk + "/" + action + "/",
+            type : 'POST',
+            data : { 'obj' : pk },
+
+            success : function (json) {
+                dislike.find("[data-count='dislike']").text(json.dislike_count);
+                like.find("[data-count='like']").text(json.like_count);
+            }
+        });
+
+        return false;
+    }
+
+    // Connecting Handlers
+    $(function() {
+        $('[data-action="like"]').click(like);
+        $('[data-action="dislike"]').click(dislike);
+    });
+</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- Popper.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <!-- Custom script-->
 <script src="{% static "js/custom.js" %}"></script>
+
+
 </body>
 
 </html>

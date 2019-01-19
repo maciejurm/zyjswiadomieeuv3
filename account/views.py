@@ -4,12 +4,14 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, DeleteView
 from .forms import FollowForm, UserEditForm, ProfileEditForm
+from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.urls import reverse_lazy
 from stream_django.feed_manager import feed_manager
 from stream_django.enrich import Enrich
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from social_django.models import UserSocialAuth
 
 enricher = Enrich()
 
@@ -98,3 +100,42 @@ def edit(request):
     return render(request, 'account/edit.html',
                   {'user_form':user_form,
                    'profile_form': profile_form})
+
+def privacy_policy(request):
+    return render(request, 'account/polityka.html')
+
+@login_required(login_url='/account/login/')
+def settings(request):
+    user = request.user
+
+    try:
+        facebook_login = user.social_auth.get(provider='facebook')
+    except UserSocialAuth.DoesNotExist:
+        facebook_login = None
+
+    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+
+    return render(request, 'account/settings.html', {
+        'facebook_login': facebook_login,
+        'can_disconnect': can_disconnect
+    })
+
+@login_required(login_url='/account/login/')
+def password(request):
+    if request.user.has_usable_password():
+        PasswordForm = PasswordChangeForm
+    else:
+        PasswordForm = AdminPasswordChangeForm
+
+    if request.method == 'POST':
+        form = PasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordForm(request.user)
+    return render(request, 'account/password.html', {'form': form})
