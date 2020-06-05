@@ -6,7 +6,7 @@ defusedxml==0.5.0
 
 dj-places==3.1.0
 
-Django==2.1.4
+Django==2.2.13
 
 django-analytical==2.5.0
 
