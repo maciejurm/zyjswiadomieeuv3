@@ -62,5 +62,5 @@ stream-python==3.0.1
 
 taggit-selectize==2.6.0
 
-urllib3==1.24.1
+urllib3==1.26.5
 django-reset-migrations
